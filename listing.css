@@ -203,7 +203,6 @@ h1 { margin: 0; font-family: var(--serif); font-weight: 600; font-size: clamp(30
 .ticks svg { width: 18px; height: 18px; color: #19644e; stroke-width: 2.2; }
 .ticks--off { color: var(--muted); }
 .ticks--off svg { color: #8a867f; stroke-width: 2; }
-.preview-note { margin: 0; padding-top: 24px; border-top: 1px solid var(--line-2); font-size: 13px; color: var(--muted); }
 @media (max-width: 720px) {
   .rooms--6 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .from { justify-content: flex-start; }
