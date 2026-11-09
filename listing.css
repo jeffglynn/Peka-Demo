@@ -224,3 +224,19 @@ h1 { margin: 0; font-family: var(--serif); font-weight: 600; font-size: clamp(30
 .val--no circle { fill: #efedea; stroke: none; }
 .val--no path { stroke: #8a867f; stroke-width: 2; }
 .val--tag { padding: 3px 12px; border-radius: 999px; background: #e8edf5; color: var(--navy); font-weight: 700; }
+
+/* sliding tab indicator */
+.tabs { position: relative; isolation: isolate; }
+.tabs__ind { position: absolute; top: 4px; left: 0; height: calc(100% - 8px); width: 0; border-radius: 9px; background: var(--navy); z-index: -1; transform: translateX(0); transition: transform .35s cubic-bezier(.4, 0, .2, 1), width .35s cubic-bezier(.4, 0, .2, 1); }
+.tabs.is-ready button[aria-selected="true"] { background: transparent; }
+.tabs button { transition: color .25s ease, background-color .2s ease; }
+.tabs button[aria-selected="true"]:hover { background: transparent; }
+
+/* crossfading media panels */
+.stage { display: grid; }
+.stage > .panel { grid-area: 1 / 1; opacity: 0; visibility: hidden; transition: opacity .45s ease, visibility 0s linear .45s; }
+.stage > .panel.is-active { opacity: 1; visibility: visible; transition: opacity .45s ease, visibility 0s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .tabs__ind, .stage > .panel, .stage > .panel.is-active, .tabs button { transition: none; }
+}

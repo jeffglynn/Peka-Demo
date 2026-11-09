@@ -74,17 +74,37 @@
 
   // tabs
   const tabs = () => $$('.tabs [role="tab"]');
+  const tabBar = $('.tabs');
+  const ind = $('.tabs__ind');
+  function moveIndicator() {
+    const t = $('.tabs [aria-selected="true"]');
+    if (!t) return;
+    ind.style.width = t.offsetWidth + 'px';
+    ind.style.transform = `translateX(${t.offsetLeft}px)`;
+    ind.style.top = t.offsetTop + 'px';
+    ind.style.height = t.offsetHeight + 'px';
+  }
   function selectTab(name, focus) {
     tabs().forEach((t) => {
       const on = t.dataset.tab === name;
       t.setAttribute('aria-selected', on);
       t.tabIndex = on ? 0 : -1;
-      $('#panel-' + t.dataset.tab).hidden = !on;
+      const panel = $('#panel-' + t.dataset.tab);
+      panel.classList.toggle('is-active', on);
+      panel.inert = !on;
       if (on && focus) t.focus();
     });
+    moveIndicator();
     const fr = $(`#panel-${name} iframe[data-src]`);
     if (fr && !fr.getAttribute('src')) fr.src = srcs[fr.dataset.src];
   }
+  // place the pill without animating, then enable the slide
+  ind.style.transition = 'none';
+  moveIndicator();
+  tabBar.classList.add('is-ready');
+  requestAnimationFrame(() => requestAnimationFrame(() => { ind.style.transition = ''; }));
+  window.addEventListener('resize', moveIndicator);
+  if (document.fonts) document.fonts.ready.then(moveIndicator);
   tabs().forEach((t) => {
     t.addEventListener('click', () => selectTab(t.dataset.tab));
     t.addEventListener('keydown', (e) => {
